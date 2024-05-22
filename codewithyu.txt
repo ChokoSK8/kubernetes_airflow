@@ -29,6 +29,10 @@ Kubernetes - CodeWithYu :
     Installation of Airflow with helm : https://airflow.apache.org/docs/helm-chart/stable/index.html
         Port forwarding to access airflow-webserver : [ kubectl port-forward svc/airflow-webserver 8080:8080 -n airflow ]
         Accessing values from the Airflow's Chart : [ kubectl show values apache-airflow/airflow ]
+        Sync Git :
+            Create private repo
+            Follow : https://airflow.apache.org/docs/helm-chart/stable/manage-dags-files.html#mounting-dags-from-a-private-github-repo-using-git-sync-sidecar
+            Follow : https://airflow.apache.org/docs/helm-chart/stable/production-guide.html#production-guide-knownhosts
 
 
 Kubernetes - Helm :
