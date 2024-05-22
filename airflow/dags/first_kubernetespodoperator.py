@@ -3,8 +3,8 @@ from airflow.utils.dates import days_ago
 from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
 
 with DAG(
-    dag_id='first_dag',
-    description='My first DAG created with DataScientest',
+    dag_id='first_kubernetespodoperator',
+    description='My first DAG with KubernetesPodOperator',
     tags=['tutorial', 'datascientest'],
     schedule_interval=None,
     default_args={
