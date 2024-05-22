@@ -1,0 +1,40 @@
+Kubernetes - CodeWithYu :
+
+
+    Installation of Kubernetes, kubectl command and helm command
+
+    [ kubectl cluster-info ] command returns :
+        - Kubernetes control plane : it manages the worker nodes and the Pods ;
+        - CoreDNS : the Kubernetes cluster DNS ;
+        - Metrics-server : it queries each node over HTTP to fetch metrics - used for HPA and VPA.
+
+    [ kubectl config get-contexts ] command returns the list of Kubernetes cluster(s)
+
+    Adding Kubernetes Dashboard with helm :
+        [ helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/ ]
+        [ helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard ]
+        We use another namespace, so we need to change the namespace from the default one to the kubernetes-dashboard :
+            [ kubectl config set-context --current --namespace=kubernetes-dashboard ]
+        Display the Kubernetes instances
+        Go display the Dashboard in the browser, we use the [ kubectl port-forward ] command on the proxy server :
+            [ kubectl -n kubernetes-dashboard port-forward svc/kubernetes-dashboard-kong-proxy 8443:443 ]
+        To use the Dashboard, we need to create a token linked to a ServiceAccount :
+          - dashboard/config/ :
+            - adminuser.yaml : define a ServiceAccount within a namespace ;
+            - clusterrole.yaml : define a ClusterRoleBinding to grant permission accross a cluster to one or many subject(s) within a namespace ;
+            - secret.yaml : define a Secret to generate the admin-user ServiceAccount token.
+            Apply the files and then extract the secret generated :
+                [ kubectl get secret admin-user -o jsonpath={'.data.token'} | base64 -d ]
+
+    Installation of Airflow with helm : https://airflow.apache.org/docs/helm-chart/stable/index.html
+        Port forwarding to access airflow-webserver : [ kubectl port-forward svc/airflow-webserver 8080:8080 -n airflow ]
+        Accessing values from the Airflow's Chart : [ kubectl show values apache-airflow/airflow ]
+
+
+Kubernetes - Helm :
+
+    [ helm list (-A) ] : list charts
+
+    [ helm upgrade --install airflow apache-airflow/airflow --namespace airflow --create-namespace ] : used to (re)deploy the Kubernetes instances of a chart
+
+
